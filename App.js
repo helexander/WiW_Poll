@@ -1,9 +1,11 @@
+import "react-native-gesture-handler";
 import { NavigationContainer } from '@react-navigation/native';
 import { createNativeStackNavigator } from '@react-navigation/native-stack';
-import { Button } from 'react-native';
+import { Button, Text, View } from 'react-native';
 import { QuestionGroup } from './components/QuestionGroup';
 import { DetailsScreen } from './components/DetailsScreen';
 import { AppTheme } from './styles/Theme';
+import { GestureHandlerRootView } from "react-native-gesture-handler";
 
 const Stack = createNativeStackNavigator()
 
@@ -32,6 +34,7 @@ function App() {
         <Stack.Screen name="Details" component={DetailsScreen} />
       </Stack.Navigator>
     </NavigationContainer>
+
   );
 }
 
