@@ -1,11 +1,12 @@
 import "react-native-get-random-values";
 import React, { useState } from "react";
-import { Text, StyleSheet, TouchableOpacity, View, TextInput } from "react-native";
+import { Text, StyleSheet, View, TextInput } from "react-native";
 import DraggableFlatList, {
     ScaleDecorator,
 } from "react-native-draggable-flatlist";
 import { v4 as uuidv4 } from "uuid";
 import { ListItem } from "react-native-design-system"
+import MaterialIcons from "react-native-vector-icons/MaterialIcons"
 
 const initialTempData = [{
     key: 123,
@@ -48,22 +49,23 @@ export function OptionsGroup() {
     }
 
     const renderItem = ({ item, drag, isActive, getIndex }) => {
-        const isLastItem = getIndex() === 9;
+        const isLastItem = getIndex() === 9; // Do not render a bottom border it is the last item
 
         return (
             <ScaleDecorator>
                 {/* TODO: Options should be renamable */}
                 {/* TODO: Users should only be able to drag and drop when the icon is clicked */}
-                <Text>This should not enable drag</Text>
-                <ListItem
-                    size="lg"
-                    onLongPress={drag}
-                    disabled={isActive}
-                    background={isActive ? "gray300" : "white"}
-                    style={!isLastItem && { borderBottomWidth: 1 }} // Do not render a bottom border it is the last item
-                >
-                    {item.newOption}
-                </ListItem>
+                <View style={{ flexDirection: 'row', justifyContent: 'space-between', borderBottomWidth: !isLastItem && 1, borderBottomColor: "#E4E7E5" }}>
+                    <Text>{item.newOption}</Text>
+                    <ListItem
+                        size="lg"
+                        onLongPress={drag}
+                        disabled={isActive}
+                        background={isActive ? "gray300" : "white"}
+                    >
+                        <MaterialIcons name="drag-indicator" size={16} />
+                    </ListItem>
+                </View>
             </ScaleDecorator>
         )
     }
