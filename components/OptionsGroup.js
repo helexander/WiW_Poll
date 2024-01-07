@@ -1,59 +1,88 @@
+import "react-native-get-random-values";
 import React, { useState } from "react";
-import { Text, StyleSheet, TouchableOpacity, View } from "react-native";
+import { Text, StyleSheet, TouchableOpacity, View, TextInput } from "react-native";
 import DraggableFlatList, {
     ScaleDecorator,
 } from "react-native-draggable-flatlist";
+import { v4 as uuidv4 } from "uuid";
+import { ListItem } from "react-native-design-system"
 
-const getColor = (i, numItems) => {
-    const multiplier = 255 / (numItems - 1);
-    const colorVal = i * multiplier;
-    return `rgb(${colorVal}, ${Math.abs(128 - colorVal)}, ${255 - colorVal})`;
-}
-
-const mapIndexToData = (d, index, arr) => {
-    const backgroundColor = getColor(index, arr.length);
-    return {
-        text: `${index}`,
-        key: `key-${backgroundColor}`,
-        backgroundColor,
-    };
-}
-
-const NUM_ITEMS = 10;
-
-const initialData = [...Array(NUM_ITEMS)].map(mapIndexToData);
+const initialTempData = [{
+    key: 123,
+    newOption: "Pasta"
+}, {
+    key: 124,
+    newOption: "Pizza"
+}, {
+    key: 125,
+    newOption: "Kebabs"
+},
+];
 
 export function OptionsGroup() {
-    const [data, setData] = useState(initialData);
+    const [newOptionText, setNewOptionText] = useState("")
+    const [tempData, setTempData] = useState(initialTempData);
 
-    const renderItem = ({ item, drag, isActive }) => {
+    const handleAddOption = () => {
+        // handle adding options
+        const newOption = newOptionText.trim();
+
+        if (!newOption) return;
+
+        // To generate unique key id
+        const key = uuidv4();
+
+        // Add new option with the unique key generated
+        setTempData((prevData) => {
+            const newEntry = {
+                key,
+                newOption,
+            };
+            return [newEntry, ...prevData]
+        })
+
+        // Reset input field 
+        setNewOptionText("")
+        console.log(tempData.length)
+        setOptionCount(optionCount + 1)
+    }
+
+    const renderItem = ({ item, drag, isActive, getIndex }) => {
+        const isLastItem = getIndex() === 9;
+
         return (
             <ScaleDecorator>
-                <TouchableOpacity
-                    activeOpacity={1}
+                {/* TODO: Options should be renamable */}
+                {/* TODO: Users should only be able to drag and drop when the icon is clicked */}
+                <Text>This should not enable drag</Text>
+                <ListItem
+                    size="lg"
                     onLongPress={drag}
                     disabled={isActive}
-                    style={[
-                        styles.rowItem,
-                        { backgroundColor: isActive ? "red" : item.backgroundColor },
-                    ]}
+                    background={isActive ? "gray300" : "white"}
+                    style={!isLastItem && { borderBottomWidth: 1 }} // Do not render a bottom border it is the last item
                 >
-                    <Text style={styles.text}>{item.text}</Text>
-                </TouchableOpacity>
+                    {item.newOption}
+                </ListItem>
             </ScaleDecorator>
-        );
-    };
+        )
+    }
+
 
     return (
         <View>
             <Text style={{ marginBottom: 8 }}>Options</Text>
-            <DraggableFlatList
-                data={data}
-                onDragEnd={({ data }) => setData(data)}
-                keyExtractor={(item) => item.key}
-                renderItem={renderItem}
-                height={400}
-            />
+            <View style={{ backgroundColor: "white", padding: 12, borderRadius: 8 }}>
+                <DraggableFlatList
+                    data={tempData}
+                    onDragEnd={({ data }) => setTempData(data)}
+                    keyExtractor={(item) => item.key}
+                    renderItem={renderItem}
+                    height={400}
+                />
+                {tempData.length < 10 && <TextInput placeholder="Add option" onChangeText={value => setNewOptionText(value)} onSubmitEditing={handleAddOption} />}
+            </View>
+            {tempData.length < 10 && <Text>You can add {10 - tempData.length} more options.</Text>}
         </View>
     );
 }
