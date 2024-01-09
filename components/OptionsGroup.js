@@ -55,7 +55,7 @@ export function OptionsGroup() {
         return (
             <ScaleDecorator>
                 <View style={{ paddingBottom: 8, paddingTop: 8, flexDirection: 'row', justifyContent: 'space-between', borderBottomWidth: !isLastItem && 1, borderBottomColor: "#E4E7E5" }}>
-                    <TextInput value={itemName} onChangeText={value => setItemName(value)} />
+                    <TextInput value={itemName} onChangeText={value => setItemName(value)} placeholder="Option" maxLength={100} />
                     <TouchableOpacity
                         size="lg"
                         onLongPress={drag}
@@ -79,10 +79,11 @@ export function OptionsGroup() {
                     onDragEnd={({ data }) => setTempData(data)}
                     keyExtractor={(item) => item.key}
                     renderItem={renderItem}
+                    style={{ overflow: 'visible' }}
                 />
                 {tempData.length < 10 && <TextInput placeholder="Add option" onChangeText={value => setNewOptionText(value)} onSubmitEditing={handleAddOption} value={newOptionText} style={{ marginTop: 12 }} />}
             </View>
-            {tempData.length < 10 && <Text style={{ paddingTop: 8 }}>You can add {10 - tempData.length} more options.</Text>}
+            {tempData.length < 10 && <Text style={{ paddingTop: 8, color: '#8E938F' }}>You can add {10 - tempData.length} more options.</Text>}
         </View>
     );
 }
