@@ -2,7 +2,7 @@ import { useState } from "react"
 import { Button, StyleSheet, Text, TextInput, View } from "react-native"
 import { OptionsGroup } from "./OptionsGroup"
 
-export function QuestionGroup({ navigation }) {
+export function PollScreen({ navigation }) {
     const [charCount, setCharCount] = useState("")
 
     return (
