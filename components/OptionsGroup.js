@@ -7,6 +7,7 @@ import DraggableFlatList, {
 import { v4 as uuidv4 } from "uuid";
 import { ListItem } from "react-native-design-system"
 import MaterialIcons from "react-native-vector-icons/MaterialIcons"
+import { TouchableOpacity } from "react-native-gesture-handler";
 
 const initialTempData = [{
     key: 123,
@@ -16,7 +17,7 @@ const initialTempData = [{
     newOption: "Pizza"
 }, {
     key: 125,
-    newOption: "Kebabs"
+    newOption: "Kebab"
 },
 ];
 
@@ -44,27 +45,25 @@ export function OptionsGroup() {
 
         // Reset input field 
         setNewOptionText("")
-        console.log(tempData.length)
-        setOptionCount(optionCount + 1)
     }
 
     const renderItem = ({ item, drag, isActive, getIndex }) => {
+        const isFirstItem = getIndex() === 0;
         const isLastItem = getIndex() === 9; // Do not render a bottom border it is the last item
+        const [itemName, setItemName] = useState(item.newOption);
 
         return (
             <ScaleDecorator>
-                {/* TODO: Options should be renamable */}
-                {/* TODO: Users should only be able to drag and drop when the icon is clicked */}
-                <View style={{ flexDirection: 'row', justifyContent: 'space-between', borderBottomWidth: !isLastItem && 1, borderBottomColor: "#E4E7E5" }}>
-                    <Text>{item.newOption}</Text>
-                    <ListItem
+                <View style={{ paddingBottom: 8, paddingTop: 8, flexDirection: 'row', justifyContent: 'space-between', borderBottomWidth: !isLastItem && 1, borderBottomColor: "#E4E7E5" }}>
+                    <TextInput value={itemName} onChangeText={value => setItemName(value)} />
+                    <TouchableOpacity
                         size="lg"
                         onLongPress={drag}
                         disabled={isActive}
                         background={isActive ? "gray300" : "white"}
                     >
-                        <MaterialIcons name="drag-indicator" size={16} />
-                    </ListItem>
+                        <MaterialIcons name="drag-indicator" size={24} style={{ transform: [{ rotate: '90deg' }] }} />
+                    </TouchableOpacity>
                 </View>
             </ScaleDecorator>
         )
@@ -80,11 +79,10 @@ export function OptionsGroup() {
                     onDragEnd={({ data }) => setTempData(data)}
                     keyExtractor={(item) => item.key}
                     renderItem={renderItem}
-                    height={400}
                 />
-                {tempData.length < 10 && <TextInput placeholder="Add option" onChangeText={value => setNewOptionText(value)} onSubmitEditing={handleAddOption} />}
+                {tempData.length < 10 && <TextInput placeholder="Add option" onChangeText={value => setNewOptionText(value)} onSubmitEditing={handleAddOption} value={newOptionText} style={{ marginTop: 12 }} />}
             </View>
-            {tempData.length < 10 && <Text>You can add {10 - tempData.length} more options.</Text>}
+            {tempData.length < 10 && <Text style={{ paddingTop: 8 }}>You can add {10 - tempData.length} more options.</Text>}
         </View>
     );
 }

@@ -23,12 +23,12 @@ function App() {
               <Stack.Screen name="NewPoll" component={PollScreen} options={({ navigation }) => ({
                 title: 'New Poll',
                 headerRight: () => (
-                  // Should be disabled if: 
+                  // TODO: Should be disabled if: 
                   // 1. A question is not provided
                   // 2. There are less than 2 options available
                   // 3. Inputs do not exceed their text limit
                   <Button onPress={() => {
-                    alert('TODO: Give an alert saying poll submitted Redirect back to home screen')
+                    alert('Poll successfully created!')
                     navigation.navigate('Main')
                   }}
                     title="Send"
