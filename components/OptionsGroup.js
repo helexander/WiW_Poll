@@ -1,29 +1,24 @@
 import "react-native-get-random-values";
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { Text, StyleSheet, View, TextInput } from "react-native";
 import DraggableFlatList, {
     ScaleDecorator,
 } from "react-native-draggable-flatlist";
 import { v4 as uuidv4 } from "uuid";
-import { ListItem } from "react-native-design-system"
 import MaterialIcons from "react-native-vector-icons/MaterialIcons"
 import { TouchableOpacity } from "react-native-gesture-handler";
 
-const initialTempData = [{
-    key: 123,
-    newOption: "Pasta"
-}, {
-    key: 124,
-    newOption: "Pizza"
-}, {
-    key: 125,
-    newOption: "Kebab"
-},
-];
-
-export function OptionsGroup() {
+export function OptionsGroup({ setHasOptions, setPollOptions }) {
     const [newOptionText, setNewOptionText] = useState("")
-    const [tempData, setTempData] = useState(initialTempData);
+    const [data, setData] = useState([]);
+
+    useEffect(() => {
+        if (data.length > 2) {
+            setHasOptions(true)
+        }
+
+        setPollOptions(data)
+    }, [data])
 
     const handleAddOption = () => {
         // handle adding options
@@ -34,11 +29,15 @@ export function OptionsGroup() {
         // To generate unique key id
         const key = uuidv4();
 
+        // To accumulate poll count 
+        const optionCount = 3;
+
         // Add new option with the unique key generated
-        setTempData((prevData) => {
+        setData((prevData) => {
             const newEntry = {
                 key,
                 newOption,
+                optionCount
             };
             return [newEntry, ...prevData]
         })
@@ -48,7 +47,6 @@ export function OptionsGroup() {
     }
 
     const renderItem = ({ item, drag, isActive, getIndex }) => {
-        const isFirstItem = getIndex() === 0;
         const isLastItem = getIndex() === 9; // Do not render a bottom border it is the last item
         const [itemName, setItemName] = useState(item.newOption);
 
@@ -69,35 +67,20 @@ export function OptionsGroup() {
         )
     }
 
-
     return (
-        <View>
+        <View style={{ marginBottom: 20 }}>
             <Text style={{ marginBottom: 8 }}>Options</Text>
             <View style={{ backgroundColor: "white", padding: 12, borderRadius: 8 }}>
                 <DraggableFlatList
-                    data={tempData}
-                    onDragEnd={({ data }) => setTempData(data)}
+                    data={data}
+                    onDragEnd={({ data }) => setData(data)}
                     keyExtractor={(item) => item.key}
                     renderItem={renderItem}
                     style={{ overflow: 'visible' }}
                 />
-                {tempData.length < 10 && <TextInput placeholder="Add option" onChangeText={value => setNewOptionText(value)} onSubmitEditing={handleAddOption} value={newOptionText} style={{ marginTop: 12 }} />}
+                {data.length < 10 && <TextInput placeholder="Add option" onChangeText={value => setNewOptionText(value)} onSubmitEditing={handleAddOption} value={newOptionText} style={{ marginTop: 12 }} />}
             </View>
-            {tempData.length < 10 && <Text style={{ paddingTop: 8, color: '#8E938F' }}>You can add {10 - tempData.length} more options.</Text>}
+            {data.length < 10 && <Text style={{ marginTop: 8, color: '#8E938F' }}>You can add {10 - data.length} more options.</Text>}
         </View>
     );
 }
-
-const styles = StyleSheet.create({
-    rowItem: {
-        height: 100,
-        alignItems: "center",
-        justifyContent: "center",
-    },
-    text: {
-        color: "white",
-        fontSize: 24,
-        fontWeight: "bold",
-        textAlign: "center",
-    },
-});
