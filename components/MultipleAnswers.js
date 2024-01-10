@@ -12,7 +12,7 @@ export function MultipleAnswersSwitch() {
                 ios_backgroundColor="#8E938F"
                 onValueChange={toggleSwitch}
                 value={isEnabled}
-                style={{ transform: [{ scale: .75 }] }} />
+                style={{ transform: [{ scale: .8 }] }} />
         </View>
     )
 }

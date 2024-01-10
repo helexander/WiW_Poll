@@ -13,7 +13,7 @@ export function OptionsGroup({ setHasOptions, setPollOptions }) {
     const [data, setData] = useState([]);
 
     useEffect(() => {
-        if (data.length > 2) {
+        if (data.length >= 2) {
             setHasOptions(true)
         }
 
@@ -21,7 +21,7 @@ export function OptionsGroup({ setHasOptions, setPollOptions }) {
     }, [data])
 
     const handleAddOption = () => {
-        // handle adding options
+        // Handle adding options
         const newOption = newOptionText.trim();
 
         if (!newOption) return;
@@ -52,7 +52,7 @@ export function OptionsGroup({ setHasOptions, setPollOptions }) {
 
         return (
             <ScaleDecorator>
-                <View style={{ paddingBottom: 8, paddingTop: 8, flexDirection: 'row', justifyContent: 'space-between', borderBottomWidth: !isLastItem && 1, borderBottomColor: "#E4E7E5" }}>
+                <View style={{ marginTop: 12, marginLeft: 12, marginRight: 12, paddingBottom: 8, flexDirection: 'row', justifyContent: 'space-between', borderBottomWidth: 1, borderBottomColor: "#E4E7E5" }}>
                     <TextInput value={itemName} onChangeText={value => setItemName(value)} placeholder="Option" maxLength={100} />
                     <TouchableOpacity
                         size="lg"
@@ -70,7 +70,7 @@ export function OptionsGroup({ setHasOptions, setPollOptions }) {
     return (
         <View style={{ marginBottom: 20 }}>
             <Text style={{ marginBottom: 8 }}>Options</Text>
-            <View style={{ backgroundColor: "white", padding: 12, borderRadius: 8 }}>
+            <View style={{ backgroundColor: "white", borderRadius: 8 }}>
                 <DraggableFlatList
                     data={data}
                     onDragEnd={({ data }) => setData(data)}
@@ -78,7 +78,7 @@ export function OptionsGroup({ setHasOptions, setPollOptions }) {
                     renderItem={renderItem}
                     style={{ overflow: 'visible' }}
                 />
-                {data.length < 10 && <TextInput placeholder="Add option" onChangeText={value => setNewOptionText(value)} onSubmitEditing={handleAddOption} value={newOptionText} style={{ marginTop: 12 }} />}
+                {data.length < 10 && <TextInput placeholder="Add option" onChangeText={value => setNewOptionText(value)} onSubmitEditing={handleAddOption} value={newOptionText} style={{ padding: 12 }} />}
             </View>
             {data.length < 10 && <Text style={{ marginTop: 8, color: '#8E938F' }}>You can add {10 - data.length} more options.</Text>}
         </View>
