@@ -30,7 +30,7 @@ export function OptionsGroup({ setHasOptions, setPollOptions }) {
         const key = uuidv4();
 
         // To accumulate poll count 
-        const optionCount = 3;
+        const optionCount = 0;
 
         // Add new option with the unique key generated
         setData((prevData) => {
@@ -52,7 +52,7 @@ export function OptionsGroup({ setHasOptions, setPollOptions }) {
 
         return (
             <ScaleDecorator>
-                <View style={{ marginTop: 12, marginLeft: 12, marginRight: 12, paddingBottom: 8, flexDirection: 'row', justifyContent: 'space-between', borderBottomWidth: 1, borderBottomColor: "#E4E7E5" }}>
+                <View style={[styles.item, { borderBottomWidth: !isLastItem && 1 }]}>
                     <TextInput value={itemName} onChangeText={value => setItemName(value)} placeholder="Option" maxLength={100} />
                     <TouchableOpacity
                         size="lg"
@@ -84,3 +84,15 @@ export function OptionsGroup({ setHasOptions, setPollOptions }) {
         </View>
     );
 }
+
+const styles = StyleSheet.create({
+    item: {
+        marginTop: 12,
+        marginLeft: 12,
+        marginRight: 12,
+        paddingBottom: 8,
+        flexDirection: 'row',
+        justifyContent: 'space-between',
+        borderBottomColor: "#E4E7E5"
+    }
+})

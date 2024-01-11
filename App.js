@@ -1,15 +1,3 @@
-// TODO:
-// Options Page:
-// 1. Remove top padding on Options list
-// 2. Increase font size of Input
-
-// Poll Details Page:
-// 1. Sort options according to its vote
-// 2. Only give the highest voted item a check mark
-// 3. Pressing the Close button, editing the option and clicking Send does not update the Flatlist
-// 4. Styling: 
-//   - Text should be bold
-
 import "react-native-gesture-handler";
 import { NavigationContainer } from '@react-navigation/native';
 import { createNativeStackNavigator } from '@react-navigation/native-stack';
