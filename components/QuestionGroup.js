@@ -27,13 +27,13 @@ export function QuestionGroup({ setQuestion, setHasQuestion }) {
 
 const inputBoxStyle = StyleSheet.create({
     input: {
-        paddingLeft: 12,
         fontSize: 16,
         borderRadius: 8,
         marginTop: 8,
         marginBottom: 12,
         paddingTop: 12,
         paddingBottom: 16,
+        paddingLeft: 12,
         backgroundColor: 'white',
     }
 })

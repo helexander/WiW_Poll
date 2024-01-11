@@ -1,11 +1,3 @@
-// TODO:
-// Options Page:
-// 1. Remove top padding on Options list
-// 2. Increase font size of Input
-
-// Poll Details Page:
-// 
-
 import "react-native-gesture-handler";
 import { NavigationContainer } from '@react-navigation/native';
 import { createNativeStackNavigator } from '@react-navigation/native-stack';

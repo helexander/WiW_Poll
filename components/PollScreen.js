@@ -24,7 +24,7 @@ export function PollScreen({ navigation }) {
                 />
             )
         })
-    }, [navigation, question, hasQuestion, hasOptions])
+    }, [navigation, question, pollOptions, hasQuestion, hasOptions])
 
 
     return (
